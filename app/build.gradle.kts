@@ -54,4 +54,6 @@ dependencies {
 
     // Logger Library
     implementation("com.jakewharton.timber:timber:5.0.1")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
 }
