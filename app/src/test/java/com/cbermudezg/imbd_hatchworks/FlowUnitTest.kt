@@ -1,6 +1,6 @@
-package com.tobi.imdb
+package com.cbermudezg.imbd_hatchworks
 
-import com.tobi.imdb.viewmodel.MainViewModel
+import com.cbermudezg.imbd_hatchworks.viewmodel.MainViewModel
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers

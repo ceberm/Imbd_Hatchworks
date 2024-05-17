@@ -1,4 +1,4 @@
-package com.tobi.imdb.model
+package com.cbermudezg.imbd_hatchworks.model
 
 class Movie {
     val rank: Int = 0

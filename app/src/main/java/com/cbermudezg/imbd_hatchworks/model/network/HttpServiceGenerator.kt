@@ -1,4 +1,4 @@
-package com.tobi.imdb.model.network
+package com.cbermudezg.imbd_hatchworks.model.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

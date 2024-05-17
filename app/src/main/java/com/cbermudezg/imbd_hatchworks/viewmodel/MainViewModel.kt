@@ -1,9 +1,10 @@
-package com.tobi.imdb.viewmodel
+package com.cbermudezg.imbd_hatchworks.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tobi.imdb.model.Movie
-import com.tobi.imdb.model.MovieListDao
+import com.cbermudezg.imbd_hatchworks.model.Movie
+import com.cbermudezg.imbd_hatchworks.model.MovieListDao
+import com.cbermudezg.imbd_hatchworks.model.mCurrentMovie
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -44,6 +45,11 @@ class MainViewModel : ViewModel() {
                     }
                 }
         }
+    }
+
+    fun getMovieByIndex(index: Int) {
+        if (_moviesShared.value.isNotEmpty())
+            mCurrentMovie.value = _moviesShared.value[index]
     }
 
 }

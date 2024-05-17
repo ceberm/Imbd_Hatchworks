@@ -1,6 +1,6 @@
-package com.tobi.imdb.model.network
+package com.cbermudezg.imbd_hatchworks.model.network
 
-import com.tobi.imdb.model.Movie
+import com.cbermudezg.imbd_hatchworks.model.Movie
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers

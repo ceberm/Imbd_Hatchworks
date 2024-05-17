@@ -1,6 +1,6 @@
-package com.tobi.imdb
+package com.cbermudezg.imbd_hatchworks
 
-import com.tobi.imdb.model.network.HttpServiceGenerator
+import com.cbermudezg.imbd_hatchworks.model.network.HttpServiceGenerator
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull

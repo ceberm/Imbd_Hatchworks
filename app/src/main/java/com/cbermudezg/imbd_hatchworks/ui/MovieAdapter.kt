@@ -4,18 +4,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cbermudezg.imbd_hatchworks.R
+import com.cbermudezg.imbd_hatchworks.model.Movie
+import com.cbermudezg.imbd_hatchworks.model.mCurrentMovie
 import com.squareup.picasso.Picasso
-import com.tobi.imdb.model.Movie
 import timber.log.Timber
 
 /**
  * We need adapter pattern to show the list of elements efficiently using RecyclerView
  * @param dataset: - List of Movies
  */
-class MovieAdapter(private val dataset: List<Movie>) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
+class MovieAdapter(private val dataset: List<Movie>, private val adapterOnClick: (Int) -> Unit) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
     /**
      * ViewHolder class to recycle the views on the list and not create new ones
@@ -60,5 +60,9 @@ class MovieAdapter(private val dataset: List<Movie>) : RecyclerView.Adapter<Movi
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // Use Picasso library to fetch image from URL
         Picasso.get().load(dataset[position].image).into(holder.mImgButton)
+        mCurrentMovie.value = dataset[position]
+        holder.mImgButton.setOnClickListener {
+            adapterOnClick(position)
+        }
     }
 }
