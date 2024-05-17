@@ -9,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cbermudezg.imbd_hatchworks.ui.MovieAdapter
 import com.tobi.imdb.viewmodel.MainViewModel
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val mainViewModel: MainViewModel by viewModels()
         mainViewModel.fetchMovies()
+        val recyclerView: RecyclerView = findViewById(R.id.list)
+        recyclerView.layoutManager = GridLayoutManager(this, 3)
 
         lifecycleScope.launch {
             // repeatOnLifecycle launches the block in a new coroutine every time the
@@ -36,7 +39,6 @@ class MainActivity : AppCompatActivity() {
                     // New value received
                     if (movies.isNotEmpty()) {
                         val movieAdapter = MovieAdapter(mainViewModel.movies.value)
-                        val recyclerView: RecyclerView = findViewById(R.id.list)
                         recyclerView.adapter = movieAdapter
                     }
                 }
