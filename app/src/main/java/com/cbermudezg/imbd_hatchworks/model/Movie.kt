@@ -1,5 +1,8 @@
 package com.cbermudezg.imbd_hatchworks.model
 
+/**
+ * Base Class of Movie (based on structure coming from API)
+ */
 class Movie {
     val rank: Int = 0
     val year: Int = 0
@@ -12,4 +15,5 @@ class Movie {
     lateinit var id: String
     lateinit var imdbid: String
     lateinit var imdb_link: String
+    lateinit var genre: ArrayList<String>
 }

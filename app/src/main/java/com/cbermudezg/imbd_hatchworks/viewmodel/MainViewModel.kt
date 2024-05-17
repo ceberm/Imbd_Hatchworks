@@ -30,6 +30,11 @@ class MainViewModel : ViewModel() {
      * fetch movies from retrofit using flows
      */
     fun fetchMovies() {
+        /**
+         * Is a common error to collect objects on a flow without the use of the proper scope
+         * that could generate a lot of issues so here I want to use the viewModelScope only
+         * but dispatch it as an IO to make it faster
+         */
         viewModelScope.launch {
             repository.getMovies()
                 .flowOn(Dispatchers.IO)
@@ -47,6 +52,10 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    /**
+     * This will set the clicked object from the list to read mCurrentMovie on the details view
+     * @param index : - index on the list of movies to retrieve the particular movie
+     */
     fun getMovieByIndex(index: Int) {
         if (_moviesShared.value.isNotEmpty())
             mCurrentMovie.value = _moviesShared.value[index]

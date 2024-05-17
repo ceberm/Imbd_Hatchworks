@@ -19,7 +19,14 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
+    /**
+     * MVVM view model
+     */
     private val mainViewModel: MainViewModel by viewModels()
+
+    /**
+     * I am also using view binding here cuz is more fun!
+     */
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,9 +34,10 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
-        setContentView(view)
+        setContentView(view) // root view
         mainViewModel.fetchMovies()
         val recyclerView: RecyclerView = binding.list
+        //Grid Layout Style for the list
         recyclerView.layoutManager = GridLayoutManager(this, 3)
 
         lifecycleScope.launch {
@@ -42,10 +50,22 @@ class MainActivity : AppCompatActivity() {
                 mainViewModel.movies.collect { movies ->
                     // New value received
                     if (movies.isNotEmpty()) {
-                        val movieAdapter = MovieAdapter(mainViewModel.movies.value) { idx ->
+                        /**
+                         * This is interesting, we send the closure or Lambda function
+                         * to the Adapter, so we can use it as a callback to MainActivity
+                         * and redirect to details view.
+                         * Earlier I had it this way,
+                         *  val movieAdapter = MovieAdapter(mainViewModel.movies.value) { idx ->
+                         *    adapterOnClick(idx)
+                         *  }
+                         * recyclerView.adapter = movieAdapter
+                         *
+                         * but I can win a variable using
+                         * direct assignation like this
+                         */
+                        recyclerView.adapter = MovieAdapter(mainViewModel.movies.value) { idx ->
                             adapterOnClick(idx)
                         }
-                        recyclerView.adapter = movieAdapter
                     }
                 }
             }
@@ -58,10 +78,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     *
+     * This is a Lambda or closure function to send via param to the respective listener
+     * it will allow us to click on every element of the recycler view
+     * @param index: - position of the element clicked
      */
     private fun adapterOnClick(index: Int) {
         val intent = Intent(this, MovieDetailActivity::class.java)
+        // Before we move to next screen get & assign current movie
+        // Why? because the list of movies depends on the MainViewModel
+        // If I try to access it from the other detail view the list will be empty
+        // Also I think MutableLiveData is so cool
         mainViewModel.getMovieByIndex(index)
         startActivity(intent)
     }

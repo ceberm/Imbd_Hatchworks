@@ -11,6 +11,7 @@
         android:id="@+id/image_button"
         android:layout_width="131dp"
         android:layout_height="207dp"
+        android:scaleType="center"
         android:contentDescription="@string/img_content_desc" />
 
 </FrameLayout>
