@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Imbd_Hatchworks</string>
+    <string name="img_content_desc">movie image</string>
 </resources>

@@ -5,6 +5,7 @@ class Movie {
     val year: Int = 0
     lateinit var title: String
     lateinit var description: String
+    lateinit var image: String
     lateinit var big_image: String
     lateinit var thumbnail: String
     lateinit var rating: String

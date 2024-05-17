@@ -57,4 +57,6 @@ dependencies {
     implementation("com.jakewharton.timber:timber:5.0.1")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
+    implementation("androidx.activity:activity-ktx:1.9.0")
+    implementation("com.squareup.picasso:picasso:2.8")
 }
