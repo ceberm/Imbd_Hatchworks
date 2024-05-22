@@ -1,7 +1,7 @@
 ```js
-| |   /\  /\   |_`. |_ \
-| |  / _\/ _\  |_`. | º |
-|-| /_ /  \ _\ |__/ |_ /
+| |   /\  /\   |_ \  |_`.
+| |  / _\/ _\  | º | |_`.
+|-| /_ /  \ _\ |_ /  |__/
 ```
 
 _This is an app to show the list of the 100 more important movies according to IMDb ratings_
