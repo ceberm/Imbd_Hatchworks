@@ -3,7 +3,6 @@ package com.cbermudezg.imbd_hatchworks
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.MotionEvent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -80,10 +79,6 @@ class MainActivity : AppCompatActivity() {
                             adapterOnClick(idx)
                         }
                     }
-                    else {
-                        binding.listTitle.setBackgroundResource(R.color.error)
-                        binding.listTitle.text = resources.getText(R.string.error_msj)
-                    }
                 }
             }
         }
@@ -102,17 +97,5 @@ class MainActivity : AppCompatActivity() {
         // Also I think MutableLiveData is so cool
         mainViewModel.getMovieByIndex(index)
         startActivity(intent)
-    }
-
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        return when (event?.action) {
-            MotionEvent.ACTION_UP -> {
-                // Refresh list
-                refreshList()
-                true
-            }
-            else -> true
-        }
-
     }
 }
