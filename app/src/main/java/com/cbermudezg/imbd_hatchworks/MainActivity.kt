@@ -3,7 +3,6 @@ package com.cbermudezg.imbd_hatchworks
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
