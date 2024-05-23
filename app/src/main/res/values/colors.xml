@@ -5,4 +5,5 @@
     <color name="primary_container">#EADDFF</color>
     <color name="rating_stars">#ffd700</color>
     <color name="error">#B3261E</color>
+    <color name="error_container">#F9DEDC</color>
 </resources>

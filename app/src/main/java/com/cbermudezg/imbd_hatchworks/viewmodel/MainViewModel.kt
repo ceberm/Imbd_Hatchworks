@@ -22,9 +22,9 @@ class MainViewModel : ViewModel() {
     // Instantiate DAO for movies
     private val repository =  MovieListDao()
     // We must Initialize the state flow with empty list
-    private val _moviesShared = MutableStateFlow<List<Movie>>(ArrayList())
-    // The UI will collect from here the new movies value
-    val movies: StateFlow<List<Movie>> get() = _moviesShared.asStateFlow()
+    private val _moviesShared = MutableStateFlow<MoviesResult>(MoviesResult.Success(listOf()))
+    // The UI will collect from here the new movies value based on the result
+    val movies: StateFlow<MoviesResult> get() = _moviesShared.asStateFlow()
 
     /**
      * fetch movies from retrofit using flows
@@ -41,11 +41,13 @@ class MainViewModel : ViewModel() {
                 .catch { e ->
                     // log exception with a formatted message
                     Timber.e(e)
+                    _moviesShared.value = MoviesResult.Error(e)
                 }
                 .collect { list ->
                     // ask if the returned list is not null
                     list?.let {
-                        _moviesShared.value = it
+                        // Assign to the state the Result with the list "inside"
+                        _moviesShared.value = MoviesResult.Success(it)
                         Timber.i("Query Success! Movies Retrieved")
                     }
                 }
@@ -57,8 +59,19 @@ class MainViewModel : ViewModel() {
      * @param index : - index on the list of movies to retrieve the particular movie
      */
     fun getMovieByIndex(index: Int) {
-        if (_moviesShared.value.isNotEmpty())
-            mCurrentMovie.value = _moviesShared.value[index]
+        if (_moviesShared.value is MoviesResult.Success){
+            var res = _moviesShared.value as MoviesResult.Success
+            mCurrentMovie.value = res.movies[index]
+        }
+
     }
 
+}
+
+/**
+ * This will handle multiple states for the screen
+ */
+sealed class MoviesResult {
+    data class Success(val movies: List<Movie>): MoviesResult()
+    data class Error(val exception: Throwable): MoviesResult()
 }

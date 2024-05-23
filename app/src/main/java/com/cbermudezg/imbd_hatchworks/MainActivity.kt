@@ -3,6 +3,8 @@ package com.cbermudezg.imbd_hatchworks
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cbermudezg.imbd_hatchworks.databinding.ActivityMainBinding
 import com.cbermudezg.imbd_hatchworks.ui.MovieAdapter
 import com.cbermudezg.imbd_hatchworks.viewmodel.MainViewModel
+import com.cbermudezg.imbd_hatchworks.viewmodel.MoviesResult
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -57,26 +60,37 @@ class MainActivity : AppCompatActivity() {
                 // Trigger the flow and start listening for values.
                 // Note that this happens when lifecycle is STARTED and stops
                 // collecting when the lifecycle is STOPPED
-                mainViewModel.movies.collect { movies ->
-                    // New value received
-                    if (movies.isNotEmpty()) {
-                        /**
-                         * This is interesting, we send the closure or Lambda function
-                         * to the Adapter, so we can use it as a callback to MainActivity
-                         * and redirect to details view.
-                         * Earlier I had it this way,
-                         *  val movieAdapter = MovieAdapter(mainViewModel.movies.value) { idx ->
-                         *    adapterOnClick(idx)
-                         *  }
-                         * recyclerView.adapter = movieAdapter
-                         *
-                         * but I can win a variable using
-                         * direct assignation like this
-                         */
-                        binding.listTitle.setBackgroundColor(Color.TRANSPARENT)
-                        binding.listTitle.text = resources.getText(R.string.txt_title_list)
-                        recyclerView.adapter = MovieAdapter(mainViewModel.movies.value) { idx ->
-                            adapterOnClick(idx)
+                mainViewModel.movies.collect { result ->
+                    // In this case result can be two types
+                    //It can be error and therefore we handle it on the UI
+                    // Or it could be a movie result with success and we should
+                    // show the list
+                    when (result) {
+                        is MoviesResult.Error -> {
+                            binding.listTitle.setBackgroundResource(R.color.error)
+                            binding.listTitle.text = resources.getText(R.string.error_msj)
+                            binding.list.visibility = View.GONE
+                            binding.errorMsj.visibility = View.VISIBLE
+                        }
+                        is MoviesResult.Success -> {
+                            /**
+                             * This is interesting, we send the closure or Lambda function
+                             * to the Adapter, so we can use it as a callback to MainActivity
+                             * and redirect to details view.
+                             * Earlier I had it this way,
+                             *  val movieAdapter = MovieAdapter(mainViewModel.movies.value) { idx ->
+                             *    adapterOnClick(idx)
+                             *  }
+                             * recyclerView.adapter = movieAdapter
+                             *
+                             * but I can win a variable using
+                             * direct assignation like this
+                             */
+                            binding.listTitle.setBackgroundColor(Color.TRANSPARENT)
+                            binding.listTitle.text = resources.getText(R.string.txt_title_list)
+                            recyclerView.adapter = MovieAdapter(result.movies) { idx ->
+                                adapterOnClick(idx)
+                            }
                         }
                     }
                 }
