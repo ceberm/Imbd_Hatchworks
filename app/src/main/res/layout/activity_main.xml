@@ -15,6 +15,7 @@
         android:id="@+id/list_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:text="@string/txt_title_list"
         style="@style/TextAppearance.Material3.TitleLarge"
         android:layout_marginBottom="8dp"/>
@@ -24,6 +25,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         style="@style/Widget.AppCompat.ListView"
-        app:layoutManager="LinearLayoutManager"/>
+        app:layoutManager="LinearLayoutManager"
+        />
+
+    <TextView
+        android:id="@+id/error_msj"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/error_troubleshoot1"
+        android:textAlignment="center"
+        android:textColor="@color/error"
+        />
 
 </LinearLayout>

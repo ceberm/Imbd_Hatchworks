@@ -1,7 +1,9 @@
 package com.cbermudezg.imbd_hatchworks
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -39,7 +41,16 @@ class MainActivity : AppCompatActivity() {
         val recyclerView: RecyclerView = binding.list
         //Grid Layout Style for the list
         recyclerView.layoutManager = GridLayoutManager(this, 3)
+        refreshList()
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+    }
 
+    private fun refreshList() {
+        val recyclerView: RecyclerView = binding.list
         lifecycleScope.launch {
             // repeatOnLifecycle launches the block in a new coroutine every time the
             // lifecycle is in the STARTED state (or above) and cancels it when it's STOPPED.
@@ -63,17 +74,18 @@ class MainActivity : AppCompatActivity() {
                          * but I can win a variable using
                          * direct assignation like this
                          */
+                        binding.listTitle.setBackgroundColor(Color.TRANSPARENT)
+                        binding.listTitle.text = resources.getText(R.string.txt_title_list)
                         recyclerView.adapter = MovieAdapter(mainViewModel.movies.value) { idx ->
                             adapterOnClick(idx)
                         }
                     }
+                    else {
+                        binding.listTitle.setBackgroundResource(R.color.error)
+                        binding.listTitle.text = resources.getText(R.string.error_msj)
+                    }
                 }
             }
-        }
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
         }
     }
 
@@ -90,5 +102,17 @@ class MainActivity : AppCompatActivity() {
         // Also I think MutableLiveData is so cool
         mainViewModel.getMovieByIndex(index)
         startActivity(intent)
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return when (event?.action) {
+            MotionEvent.ACTION_UP -> {
+                // Refresh list
+                refreshList()
+                true
+            }
+            else -> true
+        }
+
     }
 }
